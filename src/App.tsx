@@ -1,18 +1,26 @@
 import React from "react";
 import { Router, Link, RouteComponentProps } from "@reach/router";
 
-import RouterPage from "./components/RouterPage";
 import { routes } from "./constants/routes";
 
-import WorkPage from "./views/WorkPage";
-import MusicPage from "./views/MusicPage";
+import Layout from "./components/Layout";
 
 interface IAppProps {}
+
+type Props = {
+  component: React.FunctionComponent;
+} & RouteComponentProps;
+
+const RouterPage: React.FC<Props> = ({ component: Component, ...rest }) => (
+  <Layout>
+    <Component {...rest} />
+  </Layout>
+);
 
 const App: React.FC<IAppProps> = () => (
   <Router>
     {routes.map(({ path, component }, idx) => (
-      <RouterPage path={path} component={component}></RouterPage>
+      <RouterPage key={`${path}-${idx}`} path={path} component={component} />
     ))}
   </Router>
 );
